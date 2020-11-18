@@ -1,16 +1,60 @@
 body {
     margin:8px;
+    background-color: #d4ba89;
+}
+
+h1 {
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    text-shadow: 2px;
 }
 
 p {
+    color: black;
+    text-justify: left;
+    font-family: monospace;
+    font-size: 32px;
     border-width: 1px;
     border-style: solid;
     border-color: black;
     height: 100px;
     width: 30%;
+    background-color: white;
+    white-space: pre;
 }
 
 #standingRon {
     position: fixed;
     right: 0px;
+    transform: scaleX(-1);
+}
+
+#type-box {
+    position:fixed;
+    top:30%;
+    width:100%;
+}
+
+#wpm {
+    font-size: 16px;
+    border-width: 0px;
+    background-color: inherit;
+    justify-content: center;
+}
+
+/* https://stackoverflow.com/questions/25194631/is-it-possible-to-always-show-up-down-arrows-for-input-number */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {  
+
+   opacity: 1;
+
+}
+
+#before-focus,
+#after-focus {
+    color: inherit;
+}
+
+#focus {
+    color: red;
 }

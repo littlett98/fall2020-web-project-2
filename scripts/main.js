@@ -29,6 +29,10 @@ function setup() {
     startButton.addEventListener("click", startStopButton);
 }
 
+/**
+ * When the start stop button is clicked, it gets a quote if it was in the stopped state 
+ * and then changes the state of the button
+ */
 function startStopButton() {
     if (!started){
         getQuote();
@@ -36,6 +40,9 @@ function startStopButton() {
     changeButtonState();
 }
 
+/**
+ * Changes the text of the button based on it's current state and then changes the state
+ */
 function changeButtonState() {
     if (!started) {
         startButton.innerText = 'Stop';

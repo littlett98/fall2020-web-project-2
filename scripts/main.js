@@ -8,7 +8,10 @@ let wpm = document.querySelector('#wpm');
 let wpmValue = wpm.value;
 let started = false;
 let beforeFocus = document.querySelector('#before-focus');
+let currentFocus = document.querySelector('#focus');
+let afterFocus = document.querySelector('#after-focus');
 let startButton = document.querySelector('#start-button');
+let index = 0;
 
 //Starting point is the setup when event listeners are attached
 document.addEventListener("DOMContentLoaded", setup);
@@ -49,6 +52,8 @@ function changeButtonState() {
     } 
     else {
         startButton.innerText = 'Start';
+        // reset index to 0 when you're done running the program
+        index = 0;
     }
     started = !started;
 }
@@ -85,7 +90,7 @@ function getQuote() {
             return response.json();
         })
         .then(json => stringSplitter(json))
-        .then(text => displayQuote(text))
+        .then(words => displayQuote(words))
         .catch( error => {
             console.error('There was a problem: '  + error);
             addQuoteError();
@@ -93,27 +98,58 @@ function getQuote() {
 }
 
 /**
- * Adds a the first quote from all the quotes sent over from the api
+ * Takes all the quotes from the fetch request and splits it up by words
  * @param {*} json 
  */
-function displayQuote(text) {
-    removeOldQuote();
-    let text = document.createTextNode(json[0]);
-    beforeFocus.appendChild(text);
+function stringSplitter(json) {
+    const words = json[0].split(' ');
+    return words;
 }
 
 /**
- * Removes all the text within the article for quotes
+ * Adds a the first quote from all the quotes sent over from the api
+ * @param {*} words array of split up words from the fetch request
  */
-function removeOldQuote() {
-    beforeFocus.innerText = '';
+function displayQuote(words) {
+    let currentWord = setInterval(displayWord, (60000/wpmValue), words);
+}
+
+/**
+ * Algorithm to center the current word appropriately depending on its length
+ * @param {*} words array of words
+ */
+function displayWord(words) {
+    let currentWord = words[index];
+    if (currentWord.length == 1) {
+        beforeFocus.innerText = '    ';
+        currentFocus.innerText = currentWord;
+    }
+    else if (currentWord.length >= 2 && currentWord.length <= 5) {
+        beforeFocus.innerText = '   ' + currentWord.substring(0, 1);
+        currentFocus.innerText = currentWord.substring(1,2);
+        afterFocus.innerText = currentWord.substring(2);
+    }
+    else if (currentWord.length >= 6 && currentWord.length <= 9) {
+        beforeFocus.innerText = '  ' + currentWord.substring(0, 2);
+        currentFocus.innerText = currentWord.substring(2,3);
+        afterFocus.innerText = currentWord.substring(3);
+    }
+    else if (currentWord.length >= 10 && currentWord.length <= 13) {
+        beforeFocus.innerText = ' ' + currentWord.substring(0, 3);
+        currentFocus.innerText = currentWord.substring(3,4);
+        afterFocus.innerText = currentWord.substring(4);
+    }
+    else if (currentWord.length > 13) {
+        beforeFocus.innerText = currentWord.substring(0, 4);
+        currentFocus.innerText = currentWord.substring(4,5);
+        afterFocus.innerText = currentWord.substring(5);
+    }
+    index++;
 }
 
 /**
  * Adds error text instead of a quote if ever there is a problem with the fetch
  */
 function addQuoteError() {
-    removeOldQuote();
-    let text = document.createTextNode("Error retrieving quote, please try again");
-    beforeFocus.appendChild(text);
+    beforeFocus.innerText = 'Error retrieving quote';
 }

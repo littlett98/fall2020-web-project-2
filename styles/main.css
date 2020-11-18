@@ -1,0 +1,16 @@
+body {
+    margin:8px;
+}
+
+p {
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
+    height: 100px;
+    width: 30%;
+}
+
+#standingRon {
+    position: fixed;
+    right: 0px;
+}

@@ -71,7 +71,8 @@ function loadWpmValue() {
 }
 
 /**
- * Gets a quote from the ron swanson api and then sends the data to the addQuote method
+ * Gets a quote from the ron swanson api and then sends the data to the stringSplitter method,
+ * followed by the displayQuote method
  * @throws {Error} If the response from the api fails, aka response is not ok, then throws the error
  */
 function getQuote() {
@@ -83,7 +84,8 @@ function getQuote() {
             }
             return response.json();
         })
-        .then(json => addQuote(json))
+        .then(json => stringSplitter(json))
+        .then(text => displayQuote(text))
         .catch( error => {
             console.error('There was a problem: '  + error);
             addQuoteError();
@@ -94,7 +96,7 @@ function getQuote() {
  * Adds a the first quote from all the quotes sent over from the api
  * @param {*} json 
  */
-function addQuote(json) {
+function displayQuote(text) {
     removeOldQuote();
     let text = document.createTextNode(json[0]);
     beforeFocus.appendChild(text);

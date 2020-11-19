@@ -11,21 +11,23 @@ h1 {
 
 p {
     color: black;
-    text-justify: left;
     font-family: monospace;
     font-size: 32px;
     border-width: 1px;
     border-style: solid;
     border-color: black;
     height: 100px;
-    width: 30%;
     background-color: white;
     white-space: pre;
+    display: flex;
+    justify-content: left;
+    align-items: center;
 }
 
 #standingRon {
     position: fixed;
     right: 0px;
+    bottom: 0px;
     transform: scaleX(-1);
 }
 
@@ -46,8 +48,8 @@ p {
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button {  
 
-   opacity: 1;
-
+    opacity: 1;
+    
 }
 
 #before-focus,
@@ -57,4 +59,8 @@ input[type=number]::-webkit-outer-spin-button {
 
 #focus {
     color: red;
+}
+
+#type-box {
+    width: 30%;
 }

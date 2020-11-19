@@ -4,6 +4,7 @@
 
 "use strict";
 
+/* all global variables */
 let wpm = document.querySelector('#wpm');
 let wpmValue = wpm.value;
 let started = false;
@@ -14,7 +15,7 @@ let startButton = document.querySelector('#start-button');
 let index = 0;
 let currentQuoteInterval = false;
 
-//Starting point is the setup when event listeners are attached
+// Starting point is the setup when event listeners are attached
 document.addEventListener("DOMContentLoaded", setup);
 
 /**
@@ -38,6 +39,9 @@ function setup() {
  * and then changes the state of the button
  */
 function startStopButton() {
+    /* if the program isn't in the started state and there is no currentQuoteInterval, start the program
+        The currentQuoteInterval is there so that users can't spam the start button if there is already
+    */
     if (!started && !currentQuoteInterval){
         getQuote();
     }
@@ -110,13 +114,12 @@ function stringSplitter(json) {
  * @param {*} words array of split up words from the fetch request
  */
 function displayQuote(words) {
-    console.log(words);
     currentQuoteInterval = setInterval(displayWord, (60000/wpmValue), words);
 }
 
 /**
  * Algorithm to center the current word appropriately depending on its length
- * @param {*} words array of words
+ * @param {*} words array of split up words from the fetch request
  */
 function displayWord(words) {
     let currentWord = words[index];
@@ -147,7 +150,9 @@ function displayWord(words) {
     }
     index++;
     if (words.length == index) {
+        // clear the interval aka stop the program since the quote is done
         clearInterval(currentQuoteInterval);
+        // set the currentQuoteInterval to false so that the method for the start button is allowed to start the speed reader again
         currentQuoteInterval = false;
         index = 0;
         if (started){

@@ -12,7 +12,7 @@ let currentFocus = document.querySelector('#focus');
 let afterFocus = document.querySelector('#after-focus');
 let startButton = document.querySelector('#start-button');
 let index = 0;
-let currentQuoteInterval;
+let currentQuoteInterval = false;
 
 //Starting point is the setup when event listeners are attached
 document.addEventListener("DOMContentLoaded", setup);
@@ -38,7 +38,7 @@ function setup() {
  * and then changes the state of the button
  */
 function startStopButton() {
-    if (!started){
+    if (!started && !currentQuoteInterval){
         getQuote();
     }
     changeButtonState();
@@ -53,8 +53,6 @@ function changeButtonState() {
     } 
     else {
         startButton.innerText = 'Start';
-        // reset index to 0 when you're done running the program
-        index = 0;
     }
     started = !started;
 }
@@ -112,6 +110,7 @@ function stringSplitter(json) {
  * @param {*} words array of split up words from the fetch request
  */
 function displayQuote(words) {
+    console.log(words);
     currentQuoteInterval = setInterval(displayWord, (60000/wpmValue), words);
 }
 
@@ -124,6 +123,7 @@ function displayWord(words) {
     if (currentWord.length == 1) {
         beforeFocus.innerText = '    ';
         currentFocus.innerText = currentWord;
+        afterFocus.innerText = '';
     }
     else if (currentWord.length >= 2 && currentWord.length <= 5) {
         beforeFocus.innerText = '   ' + currentWord.substring(0, 1);
@@ -148,6 +148,7 @@ function displayWord(words) {
     index++;
     if (words.length == index) {
         clearInterval(currentQuoteInterval);
+        currentQuoteInterval = false;
         index = 0;
         if (started){
             getQuote();

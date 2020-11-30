@@ -5,25 +5,35 @@
 "use strict";
 
 /* all global variables */
-let wpm = document.querySelector('#wpm');
-let wpmValue = wpm.value;
-let started = false;
-let beforeFocus = document.querySelector('#before-focus');
-let currentFocus = document.querySelector('#focus');
-let afterFocus = document.querySelector('#after-focus');
-let startButton = document.querySelector('#start-button');
-let index = 0;
-let currentQuoteInterval = false;
+let wpm;
+let wpmValue;
+let started;
+let beforeFocus;
+let currentFocus;
+let afterFocus;
+let startButton;
+let index;
+let currentQuoteInterval;
 
 // Starting point is the setup when event listeners are attached
 document.addEventListener("DOMContentLoaded", setup);
 
 /**
+ * Sets up the global variables
  * Loads the the saved wpm value from local storage if it exists
  * Adds an input event listener to the wpm input
  * Adds a click event listener to the start button which starts the rest of the program
  */
 function setup() {
+    wpm = document.querySelector('#wpm');
+    wpmValue = wpm.value;
+    started = false;
+    beforeFocus = document.querySelector('#before-focus');
+    currentFocus = document.querySelector('#focus');
+    afterFocus = document.querySelector('#after-focus');
+    startButton = document.querySelector('#start-button');
+    index = 0;
+    currentQuoteInterval = false;
     // If the local storage item called wpmValue exists, load the value from storage
     if (localStorage.getItem('wpmValue')) {
         loadWpmValue();
@@ -44,6 +54,11 @@ function startStopButton() {
     */
     if (!started && !currentQuoteInterval){
         getQuote();
+    }
+    else {
+        clearInterval(currentQuoteInterval);
+        currentQuoteInterval = false;
+        index = 0;
     }
     changeButtonState();
 }

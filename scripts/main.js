@@ -39,7 +39,6 @@ function setup() {
         loadWpmValue();
     }
     //find the WPM input and give it an input listener
-    //wpm.addEventListener("input", updateWpmValue);
     wpm.addEventListener("change", updateWpmValue);
     //find the start button and give it a click listener
     startButton.addEventListener("click", startStopButton);
@@ -98,7 +97,7 @@ function updateWpmValue() {
     }
     wpm.value = wpmValue;
     wpm.setAttribute("value", wpmValue);
-    localStorage.setItem('wpmValue', wpmValue)
+    localStorage.setItem('wpmValue', wpmValue);
 }
 
 /**

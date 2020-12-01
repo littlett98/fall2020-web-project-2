@@ -39,7 +39,8 @@ function setup() {
         loadWpmValue();
     }
     //find the WPM input and give it an input listener
-    wpm.addEventListener("input", updateWpmValue);
+    //wpm.addEventListener("input", updateWpmValue);
+    wpm.addEventListener("change", updateWpmValue);
     //find the start button and give it a click listener
     startButton.addEventListener("click", startStopButton);
 }
@@ -78,11 +79,26 @@ function changeButtonState() {
 
 /**
  * Updates the wpm value in html and saves it to local storage
+ * This also verifies the input number for the input
+ * If the wpm value isn't within the requirements needed for a valid number
+ * try to read a stored value
+ * and if that doesn't exist then set the value to 100
  */
 function updateWpmValue() {
-    wpmValue = wpm.value;
+    if (wpm.value%50 == 0 && wpm.value != 0 && wpm.value <= 1000) {
+        wpmValue = wpm.value;
+    }
+    else if (localStorage.getItem('wpmValue')) {
+        loadWpmValue();
+        wpm.value = wpmValue;
+        return;
+    }
+    else {
+        wpmValue = 100;
+    }
+    wpm.value = wpmValue;
     wpm.setAttribute("value", wpmValue);
-    localStorage.setItem('wpmValue', wpmValue);
+    localStorage.setItem('wpmValue', wpmValue)
 }
 
 /**
